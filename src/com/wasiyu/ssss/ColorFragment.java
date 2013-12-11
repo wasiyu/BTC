@@ -5,7 +5,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 
 public class ColorFragment extends Fragment {
 	
@@ -25,13 +27,13 @@ public class ColorFragment extends Fragment {
 		if (savedInstanceState != null)
 			mColorRes = savedInstanceState.getInt("mColorRes");
 		int color = getResources().getColor(mColorRes);
-		// construct the RelativeLayout
-		RelativeLayout v = new RelativeLayout(getActivity());
-		v.setBackgroundColor(color);
-        final DrawView view = new DrawView(getActivity());
-        view.invalidate();
-        v.addView(view);
-		return v;
+        View inflate = inflater.inflate(R.layout.test, container, false);
+        LinearLayout root = (LinearLayout) inflate.findViewById(R.id.root);
+        final DrawView drawView = new DrawView(getActivity());
+        drawView.invalidate();
+        root.addView(root);
+        root.setBackgroundColor(color);
+		return inflate;
 	}
 	
 	@Override
