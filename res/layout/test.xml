@@ -1,15 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:id="@+id/root"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+<!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+              <!--android:id="@+id/root"-->
+              <!--android:orientation="vertical"-->
+              <!--android:layout_width="match_parent"-->
+              <!--android:layout_height="match_parent">-->
 
     <ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/scroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <com.wasiyu.ssss.DrawView
+            android:id="@+id/drawView"
+            android:isScrollContainer="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
     </ScrollView>
 
-</LinearLayout>
+<!--</LinearLayout>-->

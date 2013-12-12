@@ -1,10 +1,8 @@
 package com.wasiyu.ssss;
 
 import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Rect;
+import android.graphics.*;
+import android.util.AttributeSet;
 import android.view.View;
 
 /**
@@ -13,6 +11,7 @@ import android.view.View;
 public class DrawView extends View {
     Paint mRedPaint;
     Paint mGreenPaint;
+    Paint mTextpaint;
     private Paint mBluePaint;
     private final float OFFSET_OF_LINE = 25;
     private final float OFFSET_TO_LINE = 5;
@@ -28,6 +27,21 @@ public class DrawView extends View {
         init();
     }
 
+    public DrawView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        init();
+    }
+
+    public DrawView(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+        init();
+    }
+
+    public void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        setMeasuredDimension(480, 2000);
+    }
+
+
     private void init() {
         mBluePaint = new Paint();
         mBluePaint.setColor(Color.BLUE);
@@ -39,6 +53,9 @@ public class DrawView extends View {
         mGreenPaint.setColor(Color.GREEN);
         mGreenPaint.setStyle(Paint.Style.FILL);
 
+        mTextpaint = new Paint();
+        mTextpaint.setColor(Color.BLACK);
+        mTextpaint.setTextSize(40);
 
     }
 
@@ -46,7 +63,7 @@ public class DrawView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-
+        canvas.setDrawFilter(new PaintFlagsDrawFilter(0, Paint.ANTI_ALIAS_FLAG|Paint.FILTER_BITMAP_FLAG));
         int width = getWidth() / 2 - 50;
         if (flag) {
             flag = false;
@@ -73,6 +90,11 @@ public class DrawView extends View {
                             , centerX - centerOffset
                             , startY + centerOffset + rectHeight
                             , mRedPaint);
+            String format = String.format("%.1f", mRedValue[nIndex]);
+            canvas.drawText(format
+                            , centerX - width + 2
+                            , startY + centerOffset + 40
+                            , mTextpaint);
 
             // 右边的，往后画
             canvas.drawRect(centerX + centerOffset

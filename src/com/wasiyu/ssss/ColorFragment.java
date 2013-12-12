@@ -28,12 +28,15 @@ public class ColorFragment extends Fragment {
 			mColorRes = savedInstanceState.getInt("mColorRes");
 		int color = getResources().getColor(mColorRes);
         View inflate = inflater.inflate(R.layout.test, container, false);
-        LinearLayout root = (LinearLayout) inflate.findViewById(R.id.root);
-        final DrawView drawView = new DrawView(getActivity());
-        drawView.invalidate();
-        root.addView(root);
-        root.setBackgroundColor(color);
-		return inflate;
+        ScrollView root = (ScrollView) inflate.findViewById(R.id.scroll);
+//        DrawView root = (DrawView) inflate.findViewById(R.id.drawView);
+//        final DrawView drawView = new DrawView(getActivity());
+//        final DrawView drawView = (DrawView) root.findViewById(R.id.drawView);
+//        drawView.invalidate();
+//        root.addView(root);
+//        root.setBackgroundColor(color);
+
+		return root;
 	}
 	
 	@Override
