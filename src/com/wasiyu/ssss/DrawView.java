@@ -3,6 +3,7 @@ package com.wasiyu.ssss;
 import android.content.Context;
 import android.graphics.*;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 /**
@@ -11,15 +12,11 @@ import android.view.View;
 public class DrawView extends View {
     Paint mRedPaint;
     Paint mGreenPaint;
-    Paint mTextpaint;
+    Paint mTextPaint;
     private Paint mBluePaint;
-    private final float OFFSET_OF_LINE = 25;
-    private final float OFFSET_TO_LINE = 5;
-    private float mWidth;
-    private float mHeight;
-    private static final int MAX_LENTH = 30;
-    private float mRedValue[] = new float[MAX_LENTH];
-    private float mGreenValue[] = new float[MAX_LENTH];
+    private static final int MAX_LENGTH = 30;
+    private float mRedValue[] = new float[MAX_LENGTH];
+    private float mGreenValue[] = new float[MAX_LENGTH];
     private boolean flag = true;
 
     public DrawView(Context context) {
@@ -38,7 +35,8 @@ public class DrawView extends View {
     }
 
     public void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        setMeasuredDimension(480, 2000);
+        int defaultSize = getDefaultSize(getSuggestedMinimumWidth(), widthMeasureSpec);
+        setMeasuredDimension(defaultSize, 2000);
     }
 
 
@@ -53,10 +51,9 @@ public class DrawView extends View {
         mGreenPaint.setColor(Color.GREEN);
         mGreenPaint.setStyle(Paint.Style.FILL);
 
-        mTextpaint = new Paint();
-        mTextpaint.setColor(Color.BLACK);
-        mTextpaint.setTextSize(40);
-
+        mTextPaint = new Paint();
+        mTextPaint.setColor(Color.BLACK);
+        mTextPaint.setTextSize(40);
     }
 
     @Override
@@ -67,7 +64,7 @@ public class DrawView extends View {
         int width = getWidth() / 2 - 50;
         if (flag) {
             flag = false;
-            for (int nIndex = 0; nIndex < MAX_LENTH; nIndex++) {
+            for (int nIndex = 0; nIndex < MAX_LENGTH; ++nIndex) {
                 mRedValue[nIndex] = (float) (Math.random() * width);
                 mGreenValue[nIndex] = (float) (Math.random() * width);
             }
@@ -80,7 +77,8 @@ public class DrawView extends View {
         int startY = initStartY;
         int rectHeight = rowHeight - centerOffset * 2;
 
-        for (int nIndex = 0; nIndex < MAX_LENTH; nIndex++) {
+        for (int nIndex = 0; nIndex < MAX_LENGTH; nIndex++, startY = initStartY + nIndex * rowHeight) {
+
             canvas.drawRect(centerX - width, startY, centerX + width, startY + rowHeight, mBluePaint);
             canvas.drawLine(centerX, startY, centerX, startY + rowHeight, mBluePaint);
 
@@ -90,20 +88,25 @@ public class DrawView extends View {
                             , centerX - centerOffset
                             , startY + centerOffset + rectHeight
                             , mRedPaint);
-            String format = String.format("%.1f", mRedValue[nIndex]);
-            canvas.drawText(format
-                            , centerX - width + 2
-                            , startY + centerOffset + 40
-                            , mTextpaint);
+            String left = String.format("%.1f", mRedValue[nIndex]);
+            canvas.drawText(left
+                    , centerX - width + 2
+                    , startY + centerOffset + 40
+                    , mTextPaint);
 
             // 右边的，往后画
             canvas.drawRect(centerX + centerOffset
-                            , startY + centerOffset
-                            , centerX + centerOffset + mGreenValue[nIndex]
-                            , startY + centerOffset + rectHeight
-                            , mGreenPaint);
+                    , startY + centerOffset
+                    , centerX + centerOffset + mGreenValue[nIndex]
+                    , startY + centerOffset + rectHeight
+                    , mGreenPaint);
 
-            startY = initStartY + nIndex * rowHeight;
+            String right = String.format("%.1f", mGreenValue[nIndex]);
+            float textWidth = mTextPaint.measureText(right);
+            canvas.drawText(right
+                    , centerX + width - 2 - textWidth
+                    , startY + centerOffset + 40
+                    , mTextPaint);
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.wasiyu.ssss;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
@@ -23,6 +24,9 @@ public class MainActivity extends BaseActivity {
         if (mContent == null) {
             mContent = new ColorFragment(R.color.white);
         }
+
+        startService(new Intent(this, BackgroundServices.class));
+
 
         // set above view
         setContentView(R.layout.main);
@@ -56,5 +60,11 @@ public class MainActivity extends BaseActivity {
                 .replace(R.id.content_frame, mContent)
                 .commit();
         getSlidingMenu().showContent();
+    }
+
+    @Override
+    protected void onDestroy() {
+        stopService(new Intent(this, BackgroundServices.class));
+        super.onDestroy();
     }
 }

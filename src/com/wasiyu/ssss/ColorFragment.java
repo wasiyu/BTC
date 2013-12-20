@@ -29,12 +29,7 @@ public class ColorFragment extends Fragment {
 		int color = getResources().getColor(mColorRes);
         View inflate = inflater.inflate(R.layout.test, container, false);
         ScrollView root = (ScrollView) inflate.findViewById(R.id.scroll);
-//        DrawView root = (DrawView) inflate.findViewById(R.id.drawView);
-//        final DrawView drawView = new DrawView(getActivity());
-//        final DrawView drawView = (DrawView) root.findViewById(R.id.drawView);
-//        drawView.invalidate();
-//        root.addView(root);
-//        root.setBackgroundColor(color);
+        root.setBackgroundColor(color);
 
 		return root;
 	}
